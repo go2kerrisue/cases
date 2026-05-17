@@ -1,0 +1,443 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Case Study: Portland Open Studios — Kerri Hewett</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,900;1,700&family=DM+Sans:wght@300;400;500;600&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --pink: #D81B6A;
+    --pink-light: #F48FB1;
+    --pink-pale: #FDE8F1;
+    --purple: #2D1B69;
+    --cream: #FDF6EC;
+    --cream-dark: #F5ECD9;
+    --dark: #1A1020;
+    --gray: #6B6478;
+    --white: #FFFFFF;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    font-family: 'DM Sans', sans-serif;
+    background: var(--cream);
+    color: var(--dark);
+    line-height: 1.7;
+    overflow-x: hidden;
+  }
+
+  /* NAV */
+  .topbar {
+    background: var(--dark);
+    padding: 16px 40px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  .topbar-brand { font-family: 'Playfair Display', serif; font-size: 15px; color: var(--pink-light); letter-spacing: 1px; }
+  .topbar-link { font-family: 'DM Mono', monospace; font-size: 11px; letter-spacing: 2px; text-transform: uppercase; color: rgba(255,255,255,0.5); text-decoration: none; transition: color 0.2s; }
+  .topbar-link:hover { color: var(--pink-light); }
+
+  /* HERO */
+  .hero {
+    background: var(--purple);
+    position: relative;
+    padding: 80px 40px 100px;
+    overflow: hidden;
+  }
+  .hero::before {
+    content: '';
+    position: absolute;
+    top: -80px; right: -60px;
+    width: 500px; height: 500px;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(216,27,106,0.3) 0%, transparent 70%);
+    pointer-events: none;
+  }
+  .hero::after {
+    content: '';
+    position: absolute;
+    bottom: -60px; left: 5%;
+    width: 300px; height: 300px;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(216,27,106,0.15) 0%, transparent 70%);
+    pointer-events: none;
+  }
+  .hero-inner { max-width: 860px; margin: 0 auto; position: relative; z-index: 1; }
+  .eyebrow {
+    font-family: 'DM Mono', monospace;
+    font-size: 11px; letter-spacing: 3px; text-transform: uppercase;
+    color: var(--pink-light); margin-bottom: 24px;
+    display: flex; align-items: center; gap: 12px;
+  }
+  .eyebrow::before { content: ''; display: block; width: 32px; height: 2px; background: var(--pink); }
+  .hero h1 {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(34px, 6vw, 60px);
+    font-weight: 900; color: var(--white);
+    line-height: 1.1; margin-bottom: 28px; max-width: 740px;
+  }
+  .hero h1 em { font-style: italic; color: var(--pink-light); }
+  .hero-sub { font-size: 18px; color: rgba(255,255,255,0.72); max-width: 620px; font-weight: 300; line-height: 1.6; }
+  .hero-meta { margin-top: 48px; display: flex; gap: 40px; flex-wrap: wrap; }
+  .meta-item { display: flex; flex-direction: column; gap: 4px; }
+  .meta-label { font-family: 'DM Mono', monospace; font-size: 10px; letter-spacing: 2px; text-transform: uppercase; color: var(--pink-light); }
+  .meta-value { font-size: 15px; color: var(--white); font-weight: 500; }
+
+  /* STAT BAR */
+  .stat-bar {
+    background: var(--pink);
+    padding: 32px 40px;
+    display: flex; justify-content: center; gap: 64px; flex-wrap: wrap;
+  }
+  .stat-item { text-align: center; }
+  .stat-number { font-family: 'Playfair Display', serif; font-size: 42px; font-weight: 900; color: white; line-height: 1; display: block; }
+  .stat-label { font-family: 'DM Mono', monospace; font-size: 10px; letter-spacing: 2px; text-transform: uppercase; color: rgba(255,255,255,0.7); margin-top: 6px; display: block; }
+
+  /* CONTENT */
+  .content { max-width: 860px; margin: 0 auto; padding: 80px 40px; }
+
+  .section-label {
+    font-family: 'DM Mono', monospace;
+    font-size: 10px; letter-spacing: 3px; text-transform: uppercase;
+    color: var(--pink); margin-bottom: 16px;
+    display: flex; align-items: center; gap: 10px;
+  }
+  .section-label::after { content: ''; display: block; flex: 1; height: 1px; background: var(--pink-pale); max-width: 60px; }
+
+  h2 { font-family: 'Playfair Display', serif; font-size: clamp(26px, 4vw, 38px); font-weight: 700; color: var(--purple); line-height: 1.2; margin-bottom: 24px; }
+  h3 { font-family: 'Playfair Display', serif; font-size: 20px; font-weight: 700; color: var(--purple); margin-bottom: 12px; }
+  p { font-size: 17px; color: #3D3547; margin-bottom: 20px; line-height: 1.75; }
+
+  .pullquote {
+    border-left: 4px solid var(--pink);
+    padding: 20px 32px; margin: 40px 0;
+    background: var(--pink-pale); border-radius: 0 8px 8px 0;
+  }
+  .pullquote p { font-family: 'Playfair Display', serif; font-size: 20px; font-style: italic; color: var(--purple); margin: 0; line-height: 1.5; }
+
+  .insight {
+    background: var(--cream-dark);
+    border-radius: 12px; padding: 32px 36px;
+    margin: 32px 0; border-left: 4px solid var(--purple);
+  }
+  .insight-label { font-family: 'DM Mono', monospace; font-size: 10px; letter-spacing: 2px; text-transform: uppercase; color: var(--purple); margin-bottom: 10px; }
+  .insight p { font-size: 16px; margin: 0; color: var(--dark); }
+
+  /* DATA TABLE */
+  .data-section { margin: 56px 0; }
+  .data-table-wrap { overflow-x: auto; margin-top: 28px; }
+  table { width: 100%; border-collapse: collapse; background: white; border-radius: 12px; overflow: hidden; }
+  thead { background: var(--purple); }
+  thead th { font-family: 'DM Mono', monospace; font-size: 11px; letter-spacing: 1.5px; text-transform: uppercase; color: var(--pink-light); padding: 16px 20px; text-align: center; font-weight: 500; }
+  thead th:first-child { text-align: left; }
+  tbody tr { border-bottom: 1px solid #F0EAF5; transition: background 0.15s; }
+  tbody tr:last-child { border-bottom: none; }
+  tbody tr:hover { background: var(--pink-pale); }
+  tbody td { padding: 14px 20px; font-size: 15px; color: #3D3547; text-align: center; }
+  tbody td:first-child { font-weight: 600; color: var(--purple); text-align: left; }
+  .highlight-row td { background: var(--pink-pale); font-weight: 600; }
+  .highlight-row td:first-child { color: var(--pink); }
+  .year-header { background: #F7F3FC; }
+  .year-header td { font-family: 'DM Mono', monospace; font-size: 10px; letter-spacing: 2px; text-transform: uppercase; color: var(--gray); padding: 8px 20px; }
+
+  /* STRATEGY CARDS */
+  .strategy-section { margin: 72px 0; }
+  .strategy-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-top: 40px; }
+  .s-card {
+    background: white; border-radius: 12px; padding: 32px 28px;
+    position: relative; overflow: hidden;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+  }
+  .s-card:hover { transform: translateY(-4px); box-shadow: 0 12px 40px rgba(45,27,105,0.12); }
+  .s-card::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 4px; background: var(--pink); }
+  .s-card.purple::before { background: var(--purple); }
+  .s-card.wide { grid-column: 1 / -1; }
+  .s-card-num { font-family: 'Playfair Display', serif; font-size: 52px; font-weight: 900; color: var(--pink-pale); line-height: 1; margin-bottom: 12px; }
+  .s-card.purple .s-card-num { color: #EDE8F8; }
+  .s-card h3 { font-size: 18px; margin-bottom: 10px; }
+  .s-card p { font-size: 15px; margin: 0; color: var(--gray); line-height: 1.65; }
+
+  /* METHODOLOGY */
+  .method-callout {
+    background: var(--purple); border-radius: 16px;
+    padding: 52px 48px; margin: 72px 0;
+    position: relative; overflow: hidden;
+  }
+  .method-callout::before {
+    content: ''; position: absolute; top: -40px; right: -40px;
+    width: 220px; height: 220px; border-radius: 50%;
+    background: radial-gradient(circle, rgba(216,27,106,0.3) 0%, transparent 70%);
+  }
+  .method-callout h3 { font-family: 'Playfair Display', serif; font-size: 26px; color: white; margin-bottom: 16px; position: relative; z-index: 1; }
+  .method-callout p { color: rgba(255,255,255,0.8); position: relative; z-index: 1; font-size: 16px; max-width: 640px; }
+  .philosophy-line { margin-top: 36px; position: relative; z-index: 1; background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.2); border-radius: 8px; padding: 24px 28px; }
+  .philosophy-line-label { font-family: 'DM Mono', monospace; font-size: 10px; letter-spacing: 2px; text-transform: uppercase; color: var(--pink-light); margin-bottom: 10px; }
+  .philosophy-line blockquote { font-family: 'Playfair Display', serif; font-size: 20px; font-style: italic; color: white; line-height: 1.5; }
+
+  /* OUTCOME */
+  .outcome-highlight { background: var(--cream-dark); border-radius: 12px; padding: 40px 44px; margin-top: 32px; }
+  .outcome-highlight h3 { font-size: 20px; margin-bottom: 20px; }
+  .outcome-list { list-style: none; display: flex; flex-direction: column; gap: 14px; }
+  .outcome-list li { display: flex; align-items: flex-start; gap: 14px; font-size: 16px; color: #3D3547; line-height: 1.6; }
+  .outcome-list li::before { content: '✦'; color: var(--pink); font-size: 12px; margin-top: 4px; flex-shrink: 0; }
+
+  /* CTA */
+  .cta-section { text-align: center; padding: 72px 40px; background: var(--pink-pale); border-radius: 20px; margin-bottom: 80px; }
+  .cta-section h2 { font-size: 32px; margin-bottom: 16px; }
+  .cta-section p { max-width: 500px; margin: 0 auto 36px; color: var(--gray); }
+  .cta-btn { display: inline-block; background: var(--pink); color: white; font-family: 'DM Sans', sans-serif; font-size: 15px; font-weight: 600; letter-spacing: 0.5px; padding: 16px 40px; border-radius: 50px; text-decoration: none; transition: background 0.2s, transform 0.2s; }
+  .cta-btn:hover { background: var(--purple); transform: translateY(-2px); }
+
+  /* ANIMATIONS */
+  @keyframes fadeUp { from { opacity: 0; transform: translateY(24px); } to { opacity: 1; transform: translateY(0); } }
+  .hero-inner > * { animation: fadeUp 0.6s ease both; }
+  .hero-inner > *:nth-child(1) { animation-delay: 0.1s; }
+  .hero-inner > *:nth-child(2) { animation-delay: 0.22s; }
+  .hero-inner > *:nth-child(3) { animation-delay: 0.34s; }
+  .hero-inner > *:nth-child(4) { animation-delay: 0.46s; }
+
+  @media (max-width: 640px) {
+    .hero, .content { padding-left: 24px; padding-right: 24px; }
+    .strategy-grid { grid-template-columns: 1fr; }
+    .stat-bar { gap: 32px; }
+    .method-callout { padding: 36px 28px; }
+    .outcome-highlight { padding: 28px 24px; }
+  }
+</style>
+</head>
+<body>
+
+<nav class="topbar">
+  <span class="topbar-brand">go2kerrisue</span>
+  <a href="index.html" class="topbar-link">← All Case Studies</a>
+</nav>
+
+<section class="hero">
+  <div class="hero-inner">
+    <div class="eyebrow">Case Study</div>
+    <h1>The Data Was There.<br><em>Nobody Was Looking at It.</em></h1>
+    <p class="hero-sub">How a fresh perspective, a rigorous SWOT analysis, and three deliberate product strategies turned an 89% revenue collapse into a 506% recovery — for a beloved Portland nonprofit arts organization.</p>
+    <div class="hero-meta">
+      <div class="meta-item">
+        <span class="meta-label">Organization</span>
+        <span class="meta-value">Portland Open Studios</span>
+      </div>
+      <div class="meta-item">
+        <span class="meta-label">Roles</span>
+        <span class="meta-value">Board President & Creative Consultant</span>
+      </div>
+      <div class="meta-item">
+        <span class="meta-label">Tenure</span>
+        <span class="meta-value">January 2015 – December 2017</span>
+      </div>
+      <div class="meta-item">
+        <span class="meta-label">Focus</span>
+        <span class="meta-value">Product Strategy, Digital Transformation, Org Turnaround</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="stat-bar">
+  <div class="stat-item">
+    <span class="stat-number">89%</span>
+    <span class="stat-label">Tour Guide sales drop, 2011–2014</span>
+  </div>
+  <div class="stat-item">
+    <span class="stat-number">506%</span>
+    <span class="stat-label">Recovery in first year of new strategy</span>
+  </div>
+  <div class="stat-item">
+    <span class="stat-number">3 → 11</span>
+    <span class="stat-label">Active board members rebuilt</span>
+  </div>
+  <div class="stat-item">
+    <span class="stat-number">1,053</span>
+    <span class="stat-label">Free app downloads, 2017</span>
+  </div>
+</div>
+
+<main class="content">
+
+  <!-- SITUATION -->
+  <section style="margin-bottom: 72px;">
+    <div class="section-label">The Situation</div>
+    <h2>A 20-year-old organization running on assumptions it had never tested</h2>
+
+    <p>Portland Open Studios had been Portland's premier open studio event for two decades. Artists applied, a jury selected approximately 100 participants, and every October patrons toured studios across the city. The organization had a 20-year brand, a loyal audience, and a volunteer board that cared deeply about the mission.</p>
+
+    <p>It also had a product problem it had been ignoring for years.</p>
+
+    <p>Admission to the event was sold through two printed items: a Tour Guide (structured as a calendar) and a separate map. In 2010, a mobile app had been built — but the board was afraid to promote it, worried it would cannibalize Tour Guide sales. So they didn't. Meanwhile, the Tour Guide went through a series of format experiments — 8.5x11, then 8x10, then a catastrophic 17x11 vertical calendar in 2014 — and sales collapsed from 768 units in 2011 to just 84 in 2014.</p>
+
+    <p>Kerri attended the event in 2013 as a regular patron. Her experience was chaotic. A few months later, she attended a board meeting to share feedback — and discovered an organization in quiet crisis, bound by fear, tradition, and a product strategy that the data had been disproving for years.</p>
+
+    <div class="pullquote">
+      <p>"It is not simply the availability of the mobile app that is causing the decrease in tour guide sales. It is the decreasing demand for a printed calendar product."</p>
+    </div>
+
+    <div class="insight">
+      <div class="insight-label">The Detective's Eye</div>
+      <p>The board had framed the problem as a technology threat — the app was stealing sales. The data told a different story: the product itself had stopped working. The calendar format was declining across the industry. The map looked free. The organization needed a product strategy, not a technology decision.</p>
+    </div>
+  </section>
+
+  <!-- DATA -->
+  <section class="data-section">
+    <div class="section-label">The Evidence</div>
+    <h2>Four years of data pointing at the same conclusion</h2>
+    <p>Annual surveys, point-of-sale data, and partner feedback were all available. The picture they painted was unambiguous — once someone was willing to look at it as a whole.</p>
+
+    <div class="data-table-wrap">
+      <table>
+        <thead>
+          <tr>
+            <th>Product</th>
+            <th>2011</th>
+            <th>2012</th>
+            <th>2013</th>
+            <th>2014</th>
+            <th>2015 ↑</th>
+            <th>2016</th>
+            <th>2017</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr class="highlight-row">
+            <td>Tour Guide (units sold)</td>
+            <td>768</td>
+            <td>712</td>
+            <td>526</td>
+            <td>84</td>
+            <td>509</td>
+            <td>530</td>
+            <td>453</td>
+          </tr>
+          <tr>
+            <td>Map only (units sold)</td>
+            <td>175</td>
+            <td>90</td>
+            <td>50</td>
+            <td>348</td>
+            <td>0</td>
+            <td>0</td>
+            <td>0</td>
+          </tr>
+          <tr>
+            <td>Paid App (units)</td>
+            <td>44</td>
+            <td>77</td>
+            <td>169</td>
+            <td>117</td>
+            <td>273</td>
+            <td>235</td>
+            <td>197</td>
+          </tr>
+          <tr>
+            <td>Free App (downloads)</td>
+            <td>—</td>
+            <td>—</td>
+            <td>—</td>
+            <td>—</td>
+            <td>312</td>
+            <td>192</td>
+            <td>1,053</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <p style="margin-top: 20px; font-size: 15px; color: var(--gray);">2014 Guide priced at $20. App: iPhone only at $9.99 (2011–2012); iPhone &amp; Android at $9.99 (2013–2014). Source: Portland Open Studios Communications Audit, March 2018.</p>
+  </section>
+
+  <!-- STRATEGY -->
+  <section class="strategy-section">
+    <div class="section-label">The Strategy</div>
+    <h2>Three decisions that changed everything</h2>
+    <p>Rather than treat the symptoms, Kerri went back to the data and developed a product strategy grounded in what the evidence actually showed. Annual SWOT analysis informed each year's decisions. Three core strategies drove the turnaround.</p>
+
+    <div class="strategy-grid">
+
+      <div class="s-card">
+        <div class="s-card-num">01</div>
+        <h3>Redesign the Tour Guide format</h3>
+        <p>The 17x11 calendar was a catastrophic failure — frustrating patrons and retail partners alike (the map was being treated as a free product at point-of-sale). Kerri redesigned the Tour Guide into a portable, usable format that gave more space to artists, was easier to carry through the event, and gave graphic designers a consistent standard to work with. The format was locked for the remaining years. Guide sales recovered from 84 units to 509 in the first year — a 506% increase.</p>
+      </div>
+
+      <div class="s-card purple">
+        <div class="s-card-num">02</div>
+        <h3>Eliminate the map-only option</h3>
+        <p>The separate map had been treated as a free flyer at retail — resulting in massive shrinkage and lost revenue. Rather than try to fix a product that patrons didn't perceive as valuable, Kerri eliminated it entirely. This reduced production costs, simplified the product line, and pushed patrons toward either the Tour Guide or the app — both of which generated real revenue and a better patron experience.</p>
+      </div>
+
+      <div class="s-card wide">
+        <div class="s-card-num">03</div>
+        <h3>Stop hiding the app. Make it the low-cost entry point.</h3>
+        <p>For four years the board had been afraid to promote the app, worried it would cut into Tour Guide sales. The data showed the opposite: the app had been quietly growing through word of mouth, and there was an entirely untapped audience for it. Kerri's strategy: reduce the paid app price from $9.99 to $4.99, introduce a free version as the replacement for the eliminated map-only option, and actively promote it. The result: paid app units jumped from 117 in 2014 to 273 in 2015. The free app reached 1,053 downloads in 2017 — an audience the organization had never previously reached. A geo-fencing location marketing campaign in 2017 pushed free app adoption further, targeting patrons in the event footprint in real time. Donors were recruited specifically to underwrite the revenue shift: TicketsWest in 2015, a private patron in 2016, Standard Insurance as a general sponsor in 2017.</p>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- BOARD REBUILD -->
+  <section style="margin-bottom: 72px;">
+    <div class="section-label">The Org Work</div>
+    <h2>Strategy only works if the organization can execute it</h2>
+
+    <p>Product strategy was only half the challenge. When Kerri joined, the volunteer board was thin — several members at the end of their three-year terms, limited digital expertise, and no one with the capacity to build or maintain the app that had first drawn Kerri in. (The programmer who had built it had joined Amazon and could no longer maintain the code.)</p>
+
+    <p>Kerri used the natural board turnover as a strategic opportunity. Every prospective board member was screened for comfort with digital strategy. She wasn't filling seats — she was reshaping the board's collective capability.</p>
+
+    <p>An artist came forward with an unusual combination: a full online teaching presence, a journalism background, and genuine readiness to tackle social media. Kerri brought her in as VP. Together they built platform-specific social media strategies, blog content, and press relations. The new VP also recruited additional board members with business experience — growing the active board from 3 members to 11.</p>
+
+    <div class="insight">
+      <div class="insight-label">Key Pattern</div>
+      <p>Kerri didn't wait for the perfect hire. She found the person who was already doing the work — the artist who had built an online presence independently — and gave her a role with real authority. The right structure enabled the right person to do more than either could have done alone.</p>
+    </div>
+  </section>
+
+  <!-- METHODOLOGY -->
+  <div class="method-callout">
+    <h3>This is the Creative Perspective Detective at work.</h3>
+    <p>Kerri walked into Portland Open Studios as a patron first — someone who experienced the product the way the audience did, without the assumptions that had accumulated over 20 years. That outsider perspective, combined with a willingness to let the data lead, is the methodology. Investigate what's actually happening. Synthesize what the evidence shows. Implement with the organization's real capacity in mind.</p>
+    <div class="philosophy-line">
+      <div class="philosophy-line-label">In Kerri's words</div>
+      <blockquote>"Most change happens when an organization is in turmoil. I didn't wait for the right moment. The crisis was the moment."</blockquote>
+    </div>
+  </div>
+
+  <!-- OUTCOME -->
+  <section style="margin-bottom: 72px;">
+    <div class="section-label">The Outcome</div>
+    <h2>A sustainable organization with a product strategy built to last</h2>
+    <p>By the time Kerri passed the presidency to her successor in December 2017, Portland Open Studios had a redesigned product line, a functioning digital strategy, a rebuilt board, and three years of documented SWOT analysis and audience data to guide future decisions. The organization that had sold 84 Tour Guides in 2014 sold 453 in 2017 — while also generating 1,053 free app downloads and building an entirely new audience segment.</p>
+
+    <div class="outcome-highlight">
+      <h3>What this engagement delivered</h3>
+      <ul class="outcome-list">
+        <li>Tour Guide redesigned from a 17x11 failing calendar to a portable, standardized format — 506% unit sales recovery in year one (84 → 509)</li>
+        <li>Map-only product eliminated, reducing production costs and redirecting patrons to higher-value options</li>
+        <li>App strategy overhauled: free tier introduced, paid tier repriced, actively promoted for the first time — free downloads reached 1,053 in 2017</li>
+        <li>Geo-fencing location marketing campaign deployed in 2017 to reach patrons in real time during the event</li>
+        <li>Three-year donor/sponsor recruitment strategy: TicketsWest (2015), private patron (2016), Standard Insurance (2017)</li>
+        <li>Volunteer board rebuilt from 3 active members to 11, with deliberate screening for digital strategy capability</li>
+        <li>VP recruited with journalism, social media, and online teaching expertise — built full multi-platform digital marketing strategy</li>
+        <li>Annual SWOT analysis process established as a decision-making framework, with survey data from artists and visitors informing each year's strategy</li>
+        <li>Complete website redesign (2016–2017) bringing the organization into a coherent digital presence</li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- CTA -->
+  <div style="max-width:860px;margin:0 auto;padding:0 40px 48px;display:flex;justify-content:space-between;border-top:1px solid #F5ECD9;padding-top:48px;flex-wrap:wrap;gap:20px;"><a href="integra.html" style="font-family:DM Sans,sans-serif;font-size:14px;font-weight:600;color:#D81B6A;text-decoration:none;">← LMS Implementation</a><a href="index.html" style="font-family:DM Sans,sans-serif;font-size:14px;font-weight:600;color:#D81B6A;text-decoration:none;">All Case Studies</a><a href="manufacturing.html" style="font-family:DM Sans,sans-serif;font-size:14px;font-weight:600;color:#D81B6A;text-decoration:none;">Manufacturing →</a></div><div class="cta-section">
+    <h2>Is your organization in turmoil?</h2>
+    <p>That might be exactly the right moment to bring in a fresh perspective. Let's find what the data is already telling you.</p>
+    <a href="mailto:kerrisue@mac.com" class="cta-btn">Start the Conversation</a>
+  </div>
+
+</main>
+<footer style="background:#1A1020;padding:32px 48px;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:16px;"><span style="font-family:DM Mono,monospace;font-size:11px;color:rgba(255,255,255,0.35);">© 2026 Go2KerriSue Consulting</span><a href="https://go2kerrisue.com" style="font-family:DM Mono,monospace;font-size:11px;color:#F48FB1;text-decoration:none;">go2kerrisue.com</a></footer></body>
+</html>
