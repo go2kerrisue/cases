@@ -1,0 +1,791 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Case Study: Integra LMS Transformation — Kerri Hewett</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,900;1,700&family=DM+Sans:wght@300;400;500;600&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --pink: #D81B6A;
+    --pink-light: #F48FB1;
+    --pink-pale: #FDE8F1;
+    --purple: #2D1B69;
+    --purple-mid: #4A2C8A;
+    --cream: #FDF6EC;
+    --cream-dark: #F5ECD9;
+    --dark: #1A1020;
+    --gray: #6B6478;
+    --white: #FFFFFF;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    font-family: 'DM Sans', sans-serif;
+    background: var(--cream);
+    color: var(--dark);
+    line-height: 1.7;
+    overflow-x: hidden;
+  }
+
+  /* ── HERO ── */
+  .hero {
+    background: var(--purple);
+    position: relative;
+    padding: 80px 40px 100px;
+    overflow: hidden;
+  }
+
+  .hero::before {
+    content: '';
+    position: absolute;
+    top: -60px; right: -80px;
+    width: 420px; height: 420px;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(216,27,106,0.35) 0%, transparent 70%);
+    pointer-events: none;
+  }
+
+  .hero::after {
+    content: '';
+    position: absolute;
+    bottom: -40px; left: 10%;
+    width: 260px; height: 260px;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(216,27,106,0.18) 0%, transparent 70%);
+    pointer-events: none;
+  }
+
+  .hero-inner {
+    max-width: 860px;
+    margin: 0 auto;
+    position: relative;
+    z-index: 1;
+  }
+
+  .eyebrow {
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: var(--pink-light);
+    margin-bottom: 24px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+
+  .eyebrow::before {
+    content: '';
+    display: block;
+    width: 32px;
+    height: 2px;
+    background: var(--pink);
+  }
+
+  .hero h1 {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(36px, 6vw, 62px);
+    font-weight: 900;
+    color: var(--white);
+    line-height: 1.1;
+    margin-bottom: 28px;
+    max-width: 720px;
+  }
+
+  .hero h1 em {
+    font-style: italic;
+    color: var(--pink-light);
+  }
+
+  .hero-sub {
+    font-size: 18px;
+    color: rgba(255,255,255,0.72);
+    max-width: 580px;
+    font-weight: 300;
+    line-height: 1.6;
+  }
+
+  .hero-meta {
+    margin-top: 48px;
+    display: flex;
+    gap: 40px;
+    flex-wrap: wrap;
+  }
+
+  .meta-item {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+  }
+
+  .meta-label {
+    font-family: 'DM Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--pink-light);
+  }
+
+  .meta-value {
+    font-size: 15px;
+    color: var(--white);
+    font-weight: 500;
+  }
+
+  /* ── METHODOLOGY BANNER ── */
+  .method-banner {
+    background: var(--pink);
+    padding: 28px 40px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 0;
+    overflow: hidden;
+  }
+
+  .method-step {
+    display: flex;
+    align-items: center;
+    gap: 0;
+  }
+
+  .method-word {
+    font-family: 'Playfair Display', serif;
+    font-size: 15px;
+    font-weight: 700;
+    color: white;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    padding: 8px 28px;
+    position: relative;
+  }
+
+  .method-arrow {
+    color: rgba(255,255,255,0.5);
+    font-size: 18px;
+    padding: 0 4px;
+  }
+
+  .method-active {
+    background: rgba(255,255,255,0.2);
+    border-radius: 4px;
+  }
+
+  /* ── MAIN CONTENT ── */
+  .content {
+    max-width: 860px;
+    margin: 0 auto;
+    padding: 80px 40px;
+  }
+
+  /* ── SITUATION ── */
+  .situation {
+    margin-bottom: 72px;
+  }
+
+  .section-label {
+    font-family: 'DM Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: var(--pink);
+    margin-bottom: 16px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .section-label::after {
+    content: '';
+    display: block;
+    flex: 1;
+    height: 1px;
+    background: var(--pink-pale);
+    max-width: 60px;
+  }
+
+  h2 {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(26px, 4vw, 38px);
+    font-weight: 700;
+    color: var(--purple);
+    line-height: 1.2;
+    margin-bottom: 24px;
+  }
+
+  h3 {
+    font-family: 'Playfair Display', serif;
+    font-size: 22px;
+    font-weight: 700;
+    color: var(--purple);
+    margin-bottom: 14px;
+  }
+
+  p {
+    font-size: 17px;
+    color: #3D3547;
+    margin-bottom: 20px;
+    line-height: 1.75;
+  }
+
+  .pullquote {
+    border-left: 4px solid var(--pink);
+    padding: 20px 32px;
+    margin: 40px 0;
+    background: var(--pink-pale);
+    border-radius: 0 8px 8px 0;
+  }
+
+  .pullquote p {
+    font-family: 'Playfair Display', serif;
+    font-size: 20px;
+    font-style: italic;
+    color: var(--purple);
+    margin: 0;
+    line-height: 1.5;
+  }
+
+  /* ── ADKAR PHASES ── */
+  .phases {
+    margin: 72px 0;
+  }
+
+  .phases-intro {
+    margin-bottom: 48px;
+  }
+
+  .phase-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 2px;
+  }
+
+  .phase-card {
+    display: grid;
+    grid-template-columns: 120px 1fr;
+    background: white;
+    border-radius: 0;
+    overflow: hidden;
+    transition: transform 0.2s ease;
+  }
+
+  .phase-card:first-child { border-radius: 12px 12px 0 0; }
+  .phase-card:last-child { border-radius: 0 0 12px 12px; }
+
+  .phase-card:hover {
+    transform: translateX(4px);
+    z-index: 1;
+    position: relative;
+  }
+
+  .phase-letter {
+    background: var(--purple);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 28px 16px;
+    gap: 6px;
+  }
+
+  .phase-letter span:first-child {
+    font-family: 'Playfair Display', serif;
+    font-size: 42px;
+    font-weight: 900;
+    color: var(--pink-light);
+    line-height: 1;
+  }
+
+  .phase-letter span:last-child {
+    font-family: 'DM Mono', monospace;
+    font-size: 9px;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    color: rgba(255,255,255,0.55);
+    text-align: center;
+  }
+
+  .phase-body {
+    padding: 28px 32px;
+    border-bottom: 1px solid #F0EAF5;
+  }
+
+  .phase-body h4 {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 13px;
+    font-weight: 600;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    color: var(--pink);
+    margin-bottom: 8px;
+  }
+
+  .phase-body p {
+    font-size: 15.5px;
+    margin: 0;
+    color: #3D3547;
+  }
+
+  /* ── METHODOLOGY CALLOUT ── */
+  .method-callout {
+    background: var(--purple);
+    border-radius: 16px;
+    padding: 52px 48px;
+    margin: 72px 0;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .method-callout::before {
+    content: '';
+    position: absolute;
+    top: -40px; right: -40px;
+    width: 200px; height: 200px;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(216,27,106,0.3) 0%, transparent 70%);
+  }
+
+  .method-callout h3 {
+    color: white;
+    font-size: 26px;
+    margin-bottom: 20px;
+    position: relative;
+    z-index: 1;
+  }
+
+  .method-callout p {
+    color: rgba(255,255,255,0.8);
+    position: relative;
+    z-index: 1;
+    font-size: 16px;
+  }
+
+  .method-steps-visual {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-top: 36px;
+    position: relative;
+    z-index: 1;
+    flex-wrap: wrap;
+  }
+
+  .msv-step {
+    background: rgba(255,255,255,0.12);
+    border: 1px solid rgba(255,255,255,0.2);
+    border-radius: 8px;
+    padding: 16px 24px;
+    flex: 1;
+    min-width: 140px;
+  }
+
+  .msv-num {
+    font-family: 'DM Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 2px;
+    color: var(--pink-light);
+    margin-bottom: 6px;
+  }
+
+  .msv-label {
+    font-family: 'Playfair Display', serif;
+    font-size: 18px;
+    font-weight: 700;
+    color: white;
+  }
+
+  .msv-desc {
+    font-size: 13px;
+    color: rgba(255,255,255,0.6);
+    margin-top: 4px;
+    line-height: 1.4;
+  }
+
+  .msv-arrow {
+    color: var(--pink);
+    font-size: 22px;
+    font-weight: 300;
+  }
+
+  /* ── OUTCOME ── */
+  .outcome {
+    margin-bottom: 72px;
+  }
+
+  .outcome-highlight {
+    background: var(--cream-dark);
+    border-radius: 12px;
+    padding: 40px 44px;
+    margin-top: 32px;
+  }
+
+  .outcome-highlight h3 {
+    font-size: 20px;
+    margin-bottom: 20px;
+    color: var(--purple);
+  }
+
+  .outcome-list {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+  }
+
+  .outcome-list li {
+    display: flex;
+    align-items: flex-start;
+    gap: 14px;
+    font-size: 16px;
+    color: #3D3547;
+    line-height: 1.6;
+  }
+
+  .outcome-list li::before {
+    content: '✦';
+    color: var(--pink);
+    font-size: 12px;
+    margin-top: 4px;
+    flex-shrink: 0;
+  }
+
+  /* ── CTA ── */
+  .cta-section {
+    text-align: center;
+    padding: 72px 40px;
+    background: var(--pink-pale);
+    border-radius: 20px;
+    margin-bottom: 80px;
+  }
+
+  .cta-section h2 {
+    font-size: 32px;
+    margin-bottom: 16px;
+  }
+
+  .cta-section p {
+    max-width: 500px;
+    margin: 0 auto 36px;
+    color: var(--gray);
+  }
+
+  .cta-btn {
+    display: inline-block;
+    background: var(--pink);
+    color: white;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 15px;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+    padding: 16px 40px;
+    border-radius: 50px;
+    text-decoration: none;
+    transition: background 0.2s, transform 0.2s;
+  }
+
+  .cta-btn:hover {
+    background: var(--purple);
+    transform: translateY(-2px);
+  }
+
+  /* ── NAV BAR ── */
+  .topbar {
+    background: var(--dark);
+    padding: 16px 40px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .topbar-brand {
+    font-family: 'Playfair Display', serif;
+    font-size: 15px;
+    color: var(--pink-light);
+    letter-spacing: 1px;
+  }
+
+  .topbar-link {
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: rgba(255,255,255,0.5);
+    text-decoration: none;
+    transition: color 0.2s;
+  }
+
+  .topbar-link:hover { color: var(--pink-light); }
+
+  /* ── RESPONSIVE ── */
+  @media (max-width: 640px) {
+    .hero, .content { padding-left: 24px; padding-right: 24px; }
+    .hero-meta { gap: 24px; }
+    .phase-card { grid-template-columns: 90px 1fr; }
+    .method-callout { padding: 36px 28px; }
+    .outcome-highlight { padding: 28px 24px; }
+    .method-banner { flex-wrap: wrap; gap: 8px; }
+  }
+
+  /* ── ANIMATIONS ── */
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(24px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  .hero-inner > * {
+    animation: fadeUp 0.6s ease both;
+  }
+  .hero-inner > *:nth-child(1) { animation-delay: 0.1s; }
+  .hero-inner > *:nth-child(2) { animation-delay: 0.22s; }
+  .hero-inner > *:nth-child(3) { animation-delay: 0.34s; }
+  .hero-inner > *:nth-child(4) { animation-delay: 0.46s; }
+</style>
+</head>
+<body>
+
+<!-- TOP NAV -->
+<nav class="topbar">
+  <span class="topbar-brand">go2kerrisue</span>
+  <a href="index.html" class="topbar-link">← All Case Studies</a>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-inner">
+    <div class="eyebrow">Case Study</div>
+    <h1>When the System Fails,<br><em>Start with the People</em></h1>
+    <p class="hero-sub">How a broken LMS became a catalyst for a full organizational change management cycle — and a platform that actually worked.</p>
+    <div class="hero-meta">
+      <div class="meta-item">
+        <span class="meta-label">Organization</span>
+        <span class="meta-value">Integra</span>
+      </div>
+      <div class="meta-item">
+        <span class="meta-label">Role</span>
+        <span class="meta-value">LMS Administrator & Training Content Developer</span>
+      </div>
+      <div class="meta-item">
+        <span class="meta-label">Focus</span>
+        <span class="meta-value">LMS Selection & Implementation</span>
+      </div>
+      <div class="meta-item">
+        <span class="meta-label">Methodology</span>
+        <span class="meta-value">ADKAR Change Management</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- METHODOLOGY BANNER -->
+<div class="method-banner">
+  <div class="method-step">
+    <span class="method-word method-active">Investigate</span>
+    <span class="method-arrow">→</span>
+    <span class="method-word method-active">Synthesize</span>
+    <span class="method-arrow">→</span>
+    <span class="method-word method-active">Implement</span>
+  </div>
+</div>
+
+<!-- MAIN CONTENT -->
+<section style="background:#C2185B;padding:48px;">
+  <div style="max-width:860px;margin:0 auto;">
+    <p style="font-family:'DM Mono',monospace;font-size:10px;letter-spacing:3px;text-transform:uppercase;color:rgba(255,255,255,.65);margin-bottom:16px;">THE CHANGE CYCLE — ADKAR IN ACTION</p>
+    <div id="integra-viz" style="width:100%;height:220px;position:relative;">
+      <svg viewBox="0 0 860 220" xmlns="http://www.w3.org/2000/svg" style="width:100%;height:100%;">
+        <!-- Connecting spine -->
+        <path id="integra-path" d="M 86 110 L 258 110 L 258 55 L 430 55 L 430 110 L 602 110 L 602 55 L 774 55" stroke="rgba(255,255,255,.25)" stroke-width="1.5" fill="none" stroke-dasharray="5 4" style="stroke-dasharray:800;stroke-dashoffset:800;transition:stroke-dashoffset 1.4s ease;"/>
+        <!-- A -->
+        <g class="inode" style="opacity:0;transform:scale(.5);transform-origin:86px 110px;transition:opacity .4s,transform .4s cubic-bezier(.34,1.56,.64,1);">
+          <circle cx="86" cy="110" r="40" fill="rgba(255,255,255,.12)" stroke="rgba(255,255,255,.35)" stroke-width="2"/>
+          <text x="86" y="103" font-family="Playfair Display,serif" font-size="28" font-weight="900" fill="white" text-anchor="middle" dominant-baseline="middle">A</text>
+          <text x="86" y="120" font-family="DM Mono,monospace" font-size="7" letter-spacing="1" fill="rgba(255,255,255,.6)" text-anchor="middle">AWARENESS</text>
+        </g>
+        <text x="86" y="168" font-family="DM Sans,sans-serif" font-size="11" fill="rgba(255,255,255,.75)" text-anchor="middle" font-style="italic">Needs analysis</text>
+        <text x="86" y="182" font-family="DM Sans,sans-serif" font-size="11" fill="rgba(255,255,255,.75)" text-anchor="middle" font-style="italic">&amp; data reports</text>
+        <!-- D -->
+        <g class="inode" style="opacity:0;transform:scale(.5);transform-origin:258px 55px;transition:opacity .4s .2s,transform .4s .2s cubic-bezier(.34,1.56,.64,1);">
+          <circle cx="258" cy="55" r="40" fill="rgba(255,255,255,.12)" stroke="rgba(255,255,255,.35)" stroke-width="2"/>
+          <text x="258" y="48" font-family="Playfair Display,serif" font-size="28" font-weight="900" fill="white" text-anchor="middle" dominant-baseline="middle">D</text>
+          <text x="258" y="65" font-family="DM Mono,monospace" font-size="7" letter-spacing="1" fill="rgba(255,255,255,.6)" text-anchor="middle">DESIRE</text>
+        </g>
+        <!-- K -->
+        <g class="inode" style="opacity:0;transform:scale(.5);transform-origin:430px 110px;transition:opacity .4s .4s,transform .4s .4s cubic-bezier(.34,1.56,.64,1);">
+          <circle cx="430" cy="110" r="40" fill="rgba(255,255,255,.12)" stroke="rgba(255,255,255,.35)" stroke-width="2"/>
+          <text x="430" y="103" font-family="Playfair Display,serif" font-size="28" font-weight="900" fill="white" text-anchor="middle" dominant-baseline="middle">K</text>
+          <text x="430" y="120" font-family="DM Mono,monospace" font-size="7" letter-spacing="1" fill="rgba(255,255,255,.6)" text-anchor="middle">KNOWLEDGE</text>
+        </g>
+        <text x="430" y="168" font-family="DM Sans,sans-serif" font-size="11" fill="rgba(255,255,255,.75)" text-anchor="middle" font-style="italic">RFP + demos</text>
+        <text x="430" y="182" font-family="DM Sans,sans-serif" font-size="11" fill="rgba(255,255,255,.75)" text-anchor="middle" font-style="italic">→ Cornerstone</text>
+        <!-- A2 -->
+        <g class="inode" style="opacity:0;transform:scale(.5);transform-origin:602px 55px;transition:opacity .4s .6s,transform .4s .6s cubic-bezier(.34,1.56,.64,1);">
+          <circle cx="602" cy="55" r="40" fill="rgba(255,255,255,.12)" stroke="rgba(255,255,255,.35)" stroke-width="2"/>
+          <text x="602" y="48" font-family="Playfair Display,serif" font-size="28" font-weight="900" fill="white" text-anchor="middle" dominant-baseline="middle">A</text>
+          <text x="602" y="65" font-family="DM Mono,monospace" font-size="7" letter-spacing="1" fill="rgba(255,255,255,.6)" text-anchor="middle">ABILITY</text>
+        </g>
+        <!-- R -->
+        <g class="inode" style="opacity:0;transform:scale(.5);transform-origin:774px 55px;transition:opacity .4s .8s,transform .4s .8s cubic-bezier(.34,1.56,.64,1);">
+          <circle cx="774" cy="55" r="44" fill="rgba(45,27,105,.7)" stroke="white" stroke-width="2"/>
+          <text x="774" y="48" font-family="Playfair Display,serif" font-size="28" font-weight="900" fill="white" text-anchor="middle" dominant-baseline="middle">R</text>
+          <text x="774" y="65" font-family="DM Mono,monospace" font-size="7" letter-spacing="1" fill="rgba(255,255,255,.7)" text-anchor="middle">REINFORCE</text>
+        </g>
+        <text x="774" y="120" font-family="DM Sans,sans-serif" font-size="11" fill="rgba(255,255,255,.75)" text-anchor="middle" font-style="italic">Org-wide</text>
+        <text x="774" y="134" font-family="DM Sans,sans-serif" font-size="11" fill="rgba(255,255,255,.75)" text-anchor="middle" font-style="italic">adoption</text>
+      </svg>
+    </div>
+  </div>
+</section>
+<script>
+  const iViz = document.getElementById('integra-viz');
+  const iObs = new IntersectionObserver(entries => {
+    entries.forEach(e => {
+      if(e.isIntersecting){
+        setTimeout(()=>{
+          document.getElementById('integra-path').style.strokeDashoffset='0';
+          document.querySelectorAll('.inode').forEach(n=>{ n.style.opacity='1'; n.style.transform='scale(1)'; });
+        },100);
+        iObs.unobserve(e.target);
+      }
+    });
+  },{threshold:0.3});
+  iObs.observe(iViz);
+</script>
+<main class="content">
+
+  <!-- SITUATION -->
+  <section class="situation">
+    <div class="section-label">The Situation</div>
+    <h2>A training team running on a system that was working against them</h2>
+    <p>When Kerri joined Integra, the training team was operating on a Learning Management System built as a plugin for SharePoint. The dedicated programmers who had once maintained it were gone. What remained was a team struggling with persistent software failures, content problems they couldn't resolve, and no clear technical support.</p>
+    <p>The system wasn't just frustrating — it was actively limiting the team's ability to do their work. But no one had yet built the case to change it.</p>
+
+    <div class="pullquote">
+      <p>"The problem wasn't that people didn't know the system was broken. The problem was that nobody had the data — or the mandate — to fix it."</p>
+    </div>
+  </section>
+
+  <!-- ADKAR PHASES -->
+  <section class="phases">
+    <div class="phases-intro">
+      <div class="section-label">The Approach</div>
+      <h2>A full ADKAR cycle, from diagnosis to adoption</h2>
+      <p>Rather than jump straight to solutions, Kerri started where every good change management process starts: understanding. What followed was a complete change cycle — building awareness, earning buy-in, educating stakeholders, enabling the organization, and reinforcing adoption.</p>
+    </div>
+
+    <div class="phase-grid">
+
+      <div class="phase-card">
+        <div class="phase-letter">
+          <span>A</span>
+          <span>Awareness</span>
+        </div>
+        <div class="phase-body">
+          <h4>Investigate — Surface the problem with evidence</h4>
+          <p>Kerri facilitated a series of needs analysis and feedback sessions with the training team — then pulled data reports from the existing system to document exactly where it was falling short. Not opinions. Evidence. The reports made the invisible visible and gave leadership something concrete to act on.</p>
+        </div>
+      </div>
+
+      <div class="phase-card">
+        <div class="phase-letter">
+          <span>D</span>
+          <span>Desire</span>
+        </div>
+        <div class="phase-body">
+          <h4>Investigate — Expand the conversation across the org</h4>
+          <p>With director support, Kerri engaged department leads across the full organization — not just the training team — to understand needs from every angle. This wasn't just data collection. It was the work of building a coalition: people who understood the problem and were ready to support a solution.</p>
+        </div>
+      </div>
+
+      <div class="phase-card">
+        <div class="phase-letter">
+          <span>K</span>
+          <span>Knowledge</span>
+        </div>
+        <div class="phase-body">
+          <h4>Synthesize — Research, RFP, and vendor selection</h4>
+          <p>Kerri conducted a full market scan, developed evaluation criteria, and ran a formal RFP process that narrowed the field to three finalists. Each vendor presented live demos to the team. The group evaluated together and selected Cornerstone OnDemand — a decision grounded in real criteria, not preference.</p>
+        </div>
+      </div>
+
+      <div class="phase-card">
+        <div class="phase-letter">
+          <span>A</span>
+          <span>Ability</span>
+        </div>
+        <div class="phase-body">
+          <h4>Implement — Configure, train, and launch</h4>
+          <p>Kerri led the full Cornerstone OnDemand implementation: system configuration, data migration, and hands-on training for the training team. She also developed the onboarding content that would help the rest of the organization navigate the new system — turning technical setup into a learning experience.</p>
+        </div>
+      </div>
+
+      <div class="phase-card">
+        <div class="phase-letter">
+          <span>R</span>
+          <span>Reinforcement</span>
+        </div>
+        <div class="phase-body">
+          <h4>Implement — Communications strategy for full adoption</h4>
+          <p>The launch wasn't the finish line. Kerri developed a communications strategy to bring the full organization along — setting expectations, supporting adoption, and ensuring the investment in the new system translated into sustained, organization-wide use.</p>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- METHODOLOGY CALLOUT -->
+  <div class="method-callout">
+    <h3>This is the Creative Perspective Detective at work.</h3>
+    <p>Every engagement follows the same core methodology — but the application is always specific to what the organization actually needs. At Integra, that meant recognizing that a technology problem was really a change management problem in disguise.</p>
+    <div class="method-steps-visual">
+      <div class="msv-step">
+        <div class="msv-num">01</div>
+        <div class="msv-label">Investigate</div>
+        <div class="msv-desc">Needs analysis, feedback sessions, data pulls</div>
+      </div>
+      <div class="msv-arrow">→</div>
+      <div class="msv-step">
+        <div class="msv-num">02</div>
+        <div class="msv-label">Synthesize</div>
+        <div class="msv-desc">RFP, vendor evaluation, cross-org alignment</div>
+      </div>
+      <div class="msv-arrow">→</div>
+      <div class="msv-step">
+        <div class="msv-num">03</div>
+        <div class="msv-label">Implement</div>
+        <div class="msv-desc">Configuration, training, content, communications</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- OUTCOME -->
+  <section class="outcome">
+    <div class="section-label">The Outcome</div>
+    <h2>A system the organization could actually use — and trust</h2>
+    <p>The Cornerstone OnDemand implementation gave Integra a modern, stable learning platform with real reporting capabilities and genuine organizational adoption. But the bigger outcome was structural: the training team now had a system that supported their work instead of fighting it, and the full organization had been brought along through a thoughtful, human-centered process.</p>
+
+    <div class="outcome-highlight">
+      <h3>What this engagement delivered</h3>
+      <ul class="outcome-list">
+        <li>Documented needs assessment surfacing gaps across the training function and multiple departments</li>
+        <li>Formal RFP process with defined evaluation criteria and competitive vendor selection</li>
+        <li>Full Cornerstone OnDemand implementation — configuration, data migration, content development</li>
+        <li>Training program for the training team on the new platform</li>
+        <li>Organization-wide communications and onboarding strategy</li>
+        <li>Reporting framework to track training effectiveness and present results to leadership</li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- CTA -->
+  <div style="max-width:860px;margin:0 auto;padding:48px 40px;display:flex;justify-content:space-between;border-top:1px solid #F5ECD9;flex-wrap:wrap;gap:20px;"><a href="pdxos.html" style="font-family:DM Sans,sans-serif;font-size:14px;font-weight:600;color:#D81B6A;text-decoration:none;">← Portland Open Studios</a><a href="index.html" style="font-family:DM Sans,sans-serif;font-size:14px;font-weight:600;color:#D81B6A;text-decoration:none;">All Case Studies</a><a href="manufacturing.html" style="font-family:DM Sans,sans-serif;font-size:14px;font-weight:600;color:#D81B6A;text-decoration:none;">Manufacturing →</a></div><div class="cta-section">
+    <h2>Recognize this problem?</h2>
+    <p>If your organization is running on systems — or processes — that are working against you, let's talk.</p>
+    <a href="mailto:kerrisue@mac.com" class="cta-btn">Start the Conversation</a>
+  </div>
+
+</main>
+
+<footer style="background:#1A1020;padding:32px 48px;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:16px;"><span style="font-family:DM Mono,monospace;font-size:11px;color:rgba(255,255,255,0.35);">© 2026 Go2KerriSue Consulting</span><a href="https://go2kerrisue.com" style="font-family:DM Mono,monospace;font-size:11px;color:#F48FB1;text-decoration:none;">go2kerrisue.com</a></footer></body>
+</html>
