@@ -1,0 +1,531 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>PAC Case Study — Go2KerriSue Consulting</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,900;1,700&family=DM+Sans:wght@300;400;500;600&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root {
+--pink:#D81B6A;--pink-light:#F48FB1;--pink-pale:#FDE8F1;
+--purple:#2D1B69;--cream:#FDF6EC;--cream-dark:#F5ECD9;
+--dark:#1A1020;--gray:#6B6478;
+}
+*{margin:0;padding:0;box-sizing:border-box;}
+body{font-family:'DM Sans',sans-serif;background:var(--cream);color:var(--dark);overflow-x:hidden;}
+nav{background:var(--dark);padding:18px 48px;display:flex;justify-content:space-between;align-items:center;position:sticky;top:0;z-index:100;}
+.nav-brand{font-family:'Playfair Display',serif;font-size:17px;color:var(--pink-light);letter-spacing:1px;text-decoration:none;}
+.nav-links{display:flex;gap:32px;align-items:center;}
+.nav-link{font-family:'DM Mono',monospace;font-size:11px;letter-spacing:2px;text-transform:uppercase;color:rgba(255,255,255,0.5);text-decoration:none;transition:color .2s;}
+.nav-link:hover{color:var(--pink-light);}
+
+/* HERO */
+.hero{background:var(--dark);padding:120px 48px 100px;position:relative;overflow:hidden;}
+.hero::before{content:'';position:absolute;top:-150px;right:-150px;width:700px;height:700px;border-radius:50%;background:radial-gradient(circle,rgba(216,27,106,.2) 0%,transparent 65%);}
+.hero::after{content:'';position:absolute;bottom:-100px;left:-60px;width:500px;height:500px;border-radius:50%;background:radial-gradient(circle,rgba(45,27,105,.4) 0%,transparent 65%);}
+.hero-inner{max-width:900px;margin:0 auto;position:relative;z-index:1;}
+.breadcrumb{font-family:'DM Mono',monospace;font-size:10px;letter-spacing:2px;text-transform:uppercase;color:rgba(255,255,255,.35);margin-bottom:32px;display:flex;align-items:center;gap:10px;}
+.breadcrumb a{color:var(--pink-light);text-decoration:none;}
+.breadcrumb a:hover{text-decoration:underline;}
+.case-tag{display:inline-flex;flex-wrap:wrap;gap:8px;margin-bottom:28px;}
+.tag{font-family:'DM Mono',monospace;font-size:9px;letter-spacing:2px;text-transform:uppercase;background:rgba(216,27,106,.2);color:var(--pink-light);padding:5px 14px;border-radius:20px;border:1px solid rgba(216,27,106,.3);}
+.hero h1{font-family:'Playfair Display',serif;font-size:clamp(32px,5vw,58px);font-weight:900;color:#fff;line-height:1.08;margin-bottom:36px;max-width:820px;}
+.hero h1 em{font-style:italic;color:var(--pink-light);}
+.hero-sub{font-size:18px;color:rgba(255,255,255,.6);max-width:600px;line-height:1.7;font-weight:300;margin-bottom:52px;}
+.stat-row{display:flex;gap:48px;flex-wrap:wrap;}
+.stat{border-left:2px solid var(--pink);padding-left:20px;}
+.stat-num{font-family:'Playfair Display',serif;font-size:36px;font-weight:900;color:#fff;line-height:1;}
+.stat-label{font-family:'DM Mono',monospace;font-size:9px;letter-spacing:2px;text-transform:uppercase;color:rgba(255,255,255,.4);margin-top:6px;}
+
+/* HERO VIZ */
+.hero-viz{background:var(--dark);padding:0 0 0;overflow:hidden;}
+.hero-viz-inner{max-width:1060px;margin:0 auto;padding:0 48px 60px;}
+.viz-label{font-family:'DM Mono',monospace;font-size:10px;letter-spacing:3px;text-transform:uppercase;color:rgba(255,255,255,.3);padding-top:40px;margin-bottom:24px;text-align:center;}
+.hero-svg{width:100%;height:auto;display:block;border-radius:16px;border:1px solid rgba(255,255,255,.06);}
+.pop-el{opacity:0;transform:scale(.5);transition:opacity .4s ease,transform .4s cubic-bezier(.34,1.56,.64,1);}
+.line-el{opacity:0;transition:opacity .5s ease;}
+.line-el.l2{transition-delay:.25s;} .line-el.l3{transition-delay:.5s;}
+.hero-viz.visible .pop-el{opacity:1;transform:scale(1);}
+.hero-viz.visible .line-el{opacity:1;}
+@media(max-width:768px){
+.hero-viz-inner{padding:0 24px 40px;}
+}
+
+/* METHOD STRIP */
+.method-strip{background:var(--pink);padding:16px 48px;display:flex;justify-content:center;align-items:center;gap:8px;flex-wrap:wrap;}
+.method-strip span{font-family:'Playfair Display',serif;font-size:13px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:#fff;padding:5px 18px;background:rgba(255,255,255,.18);border-radius:4px;}
+.method-strip i{color:rgba(255,255,255,.5);font-style:normal;font-size:16px;}
+
+/* BODY */
+.case-body{max-width:800px;margin:0 auto;padding:80px 48px;}
+.section{margin-bottom:72px;}
+.section-label{font-family:'DM Mono',monospace;font-size:10px;letter-spacing:3px;text-transform:uppercase;color:var(--pink);margin-bottom:16px;display:flex;align-items:center;gap:14px;}
+.section-label::before{content:'';display:block;width:24px;height:2px;background:var(--pink);}
+.section h2{font-family:'Playfair Display',serif;font-size:clamp(24px,3.5vw,36px);font-weight:700;color:var(--purple);line-height:1.2;margin-bottom:24px;}
+.section p{font-size:16.5px;color:#3d3447;line-height:1.8;margin-bottom:20px;}
+.section p:last-child{margin-bottom:0;}
+blockquote{border-left:3px solid var(--pink);padding:20px 28px;background:#fff;border-radius:0 12px 12px 0;margin:32px 0;box-shadow:0 4px 20px rgba(45,27,105,.06);}
+blockquote p{font-family:'Playfair Display',serif;font-size:18px;font-style:italic;color:var(--purple);line-height:1.6;margin:0;}
+
+/* PHASE DIAGRAM */
+.phase-diagram{background:var(--purple);border-radius:20px;padding:48px;margin:40px 0;overflow:hidden;position:relative;}
+.phase-diagram::before{content:'';position:absolute;top:-60px;right:-60px;width:300px;height:300px;border-radius:50%;background:radial-gradient(circle,rgba(216,27,106,.2) 0%,transparent 65%);}
+.phase-label{font-family:'DM Mono',monospace;font-size:10px;letter-spacing:3px;text-transform:uppercase;color:var(--pink-light);margin-bottom:32px;}
+.phases{display:flex;flex-direction:column;gap:16px;position:relative;z-index:1;}
+.phase-row{display:grid;grid-template-columns:140px 1fr;gap:20px;align-items:start;}
+.phase-name{font-family:'DM Mono',monospace;font-size:10px;letter-spacing:2px;text-transform:uppercase;color:rgba(255,255,255,.5);padding-top:4px;}
+.phase-items{display:flex;flex-wrap:wrap;gap:8px;}
+.phase-item{font-family:'DM Sans',sans-serif;font-size:13px;color:rgba(255,255,255,.85);background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.12);padding:6px 14px;border-radius:20px;}
+.phase-item.highlight{background:rgba(216,27,106,.25);border-color:rgba(216,27,106,.4);color:#F48FB1;}
+
+/* DELIVERABLES GRID */
+.deliverables{display:grid;grid-template-columns:1fr 1fr;gap:20px;margin:32px 0;}
+.deliverable{background:#fff;border-radius:14px;padding:28px;border:1px solid rgba(45,27,105,.08);box-shadow:0 2px 16px rgba(45,27,105,.05);}
+.deliverable-icon{font-size:24px;margin-bottom:12px;}
+.deliverable h4{font-family:'Playfair Display',serif;font-size:16px;font-weight:700;color:var(--purple);margin-bottom:8px;line-height:1.3;}
+.deliverable p{font-size:13.5px;color:var(--gray);line-height:1.6;}
+
+/* THREE NODES */
+.nodes{display:grid;grid-template-columns:repeat(3,1fr);gap:20px;margin:32px 0;}
+.node{background:#fff;border-radius:14px;padding:24px;text-align:center;border-top:3px solid var(--pink);box-shadow:0 2px 16px rgba(45,27,105,.05);}
+.node.n2{border-top-color:var(--purple);}
+.node.n3{border-top-color:#8B5CF6;}
+.node-title{font-family:'DM Mono',monospace;font-size:10px;letter-spacing:2px;text-transform:uppercase;color:var(--pink);margin-bottom:10px;}
+.node.n2 .node-title{color:var(--purple);}
+.node.n3 .node-title{color:#8B5CF6;}
+.node p{font-size:13px;color:var(--gray);line-height:1.5;}
+
+/* LESSON CALLOUT */
+.lesson{background:var(--cream-dark);border-radius:16px;padding:36px 40px;margin:32px 0;border:1px solid rgba(45,27,105,.1);}
+.lesson-label{font-family:'DM Mono',monospace;font-size:9px;letter-spacing:3px;text-transform:uppercase;color:var(--pink);margin-bottom:14px;}
+.lesson p{font-size:16px;color:var(--dark);line-height:1.75;}
+
+/* RESULT BANNER */
+.result-banner{background:var(--pink);border-radius:20px;padding:52px 48px;margin:40px 0;text-align:center;position:relative;overflow:hidden;}
+.result-banner::before{content:'';position:absolute;top:-80px;left:-80px;width:300px;height:300px;border-radius:50%;background:rgba(255,255,255,.08);}
+.result-banner::after{content:'';position:absolute;bottom:-60px;right:-60px;width:250px;height:250px;border-radius:50%;background:rgba(0,0,0,.1);}
+.result-banner h2{font-family:'Playfair Display',serif;font-size:clamp(28px,4vw,44px);font-weight:900;color:#fff;margin-bottom:16px;position:relative;z-index:1;}
+.result-banner p{font-size:17px;color:rgba(255,255,255,.8);max-width:500px;margin:0 auto 36px;line-height:1.65;position:relative;z-index:1;}
+.result-stats{display:flex;justify-content:center;gap:48px;flex-wrap:wrap;position:relative;z-index:1;}
+.result-stat{text-align:center;}
+.result-stat-num{font-family:'Playfair Display',serif;font-size:42px;font-weight:900;color:#fff;line-height:1;}
+.result-stat-label{font-family:'DM Mono',monospace;font-size:9px;letter-spacing:2px;text-transform:uppercase;color:rgba(255,255,255,.65);margin-top:8px;}
+
+/* CTA */
+.case-cta{text-align:center;padding:72px 48px;background:var(--purple);margin-top:80px;}
+.case-cta h2{font-family:'Playfair Display',serif;font-size:clamp(24px,3.5vw,38px);font-weight:700;color:#fff;margin-bottom:16px;}
+.case-cta p{font-size:17px;color:rgba(255,255,255,.6);max-width:440px;margin:0 auto 36px;line-height:1.65;}
+.cta-links{display:flex;justify-content:center;gap:20px;flex-wrap:wrap;}
+.btn-primary{display:inline-block;background:var(--pink);color:#fff;font-family:'DM Sans',sans-serif;font-size:14px;font-weight:600;padding:15px 36px;border-radius:50px;text-decoration:none;transition:background .2s,transform .2s;}
+.btn-primary:hover{background:#B5145A;transform:translateY(-2px);}
+.btn-ghost{display:inline-block;border:1px solid rgba(255,255,255,.3);color:rgba(255,255,255,.7);font-family:'DM Mono',monospace;font-size:11px;letter-spacing:2px;text-transform:uppercase;padding:14px 28px;border-radius:50px;text-decoration:none;transition:all .2s;}
+.btn-ghost:hover{border-color:var(--pink-light);color:var(--pink-light);}
+
+/* FOOTER */
+footer{background:var(--dark);padding:32px 48px;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:16px;}
+footer span{font-family:'DM Mono',monospace;font-size:11px;color:rgba(255,255,255,.35);}
+footer a{font-family:'DM Mono',monospace;font-size:11px;color:var(--pink-light);text-decoration:none;}
+
+@media(max-width:768px){
+nav,.hero,.case-body,.case-cta,footer{padding-left:24px;padding-right:24px;}
+.stat-row{gap:28px;}
+.deliverables,.nodes{grid-template-columns:1fr;}
+.result-stats{gap:28px;}
+.phase-row{grid-template-columns:1fr;}
+.phase-diagram{padding:32px 24px;}
+.hero h1{font-size:clamp(28px,8vw,44px);}
+}
+</style>
+</head>
+<body>
+
+<nav>
+<a href="https://go2kerrisue.com" class="nav-brand">Go2KerriSue</a>
+<div class="nav-links">
+<a href="index.html" class="nav-link">← All Case Studies</a>
+<a href="https://go2kerrisue.com" class="nav-link">Main Site</a>
+</div>
+</nav>
+
+<section class="hero">
+<div class="hero-inner">
+<div class="breadcrumb">
+<a href="index.html">Case Studies</a>
+<span>→</span>
+<span>Positive Approach to Care</span>
+</div>
+<div class="case-tag">
+<span class="tag">Founder-Led Organization</span>
+<span class="tag">Systems Architecture</span>
+<span class="tag">LMS &amp; eLearning</span>
+<span class="tag">Change Management</span>
+<span class="tag">Knowledge Management</span>
+</div>
+<h1>From Chaos to Scalable:<br><em>Building the Operational Infrastructure Behind a National Dementia Care Certification Program</em></h1>
+<p class="hero-sub">A founder's methodology is only scalable if the operational system behind it actually works. This is the story of building that system — from five disconnected platforms and duplicate data, to a single source of truth supporting 30 organizations and 358 learners in year one.</p>
+<div class="stat-row">
+<div class="stat">
+<div class="stat-num">30</div>
+<div class="stat-label">Client Organizations</div>
+</div>
+<div class="stat">
+<div class="stat-num">358</div>
+<div class="stat-label">Learners Supported</div>
+</div>
+<div class="stat">
+<div class="stat-num">5+</div>
+<div class="stat-label">Systems Unified</div>
+</div>
+<div class="stat">
+<div class="stat-num">16</div>
+<div class="stat-label">Numbered Tasks in Accountability Matrix</div>
+</div>
+</div>
+</div>
+</section>
+
+<!-- HERO VISUALIZATION -->
+<div class="hero-viz" id="hero-viz">
+<div class="hero-viz-inner">
+<div class="viz-label">The Stakeholder Ecosystem — Before &amp; After</div>
+<svg viewBox="0 0 960 400" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid meet" class="hero-svg">
+<!-- Background -->
+<rect width="960" height="400" fill="#1A1020"/>
+<!-- BEFORE side label -->
+<text x="170" y="30" font-family="DM Mono,monospace" font-size="10" letter-spacing="3" fill="rgba(216,27,106,.5)" text-anchor="middle">BEFORE · FRAGMENTED</text>
+<!-- AFTER side label -->
+<text x="750" y="30" font-family="DM Mono,monospace" font-size="10" letter-spacing="3" fill="rgba(244,143,177,.8)" text-anchor="middle">AFTER · UNIFIED</text>
+<!-- Divider -->
+<line x1="480" y1="20" x2="480" y2="385" stroke="rgba(255,255,255,.08)" stroke-width="1" stroke-dasharray="6 4"/>
+<!-- BEFORE: scattered platforms floating disconnected -->
+<g class="pop-el before-el">
+<rect x="30" y="60" width="100" height="32" rx="6" fill="rgba(216,27,106,.15)" stroke="rgba(216,27,106,.3)" stroke-width="1"/>
+<text x="80" y="81" font-family="DM Mono,monospace" font-size="9" letter-spacing="1" fill="rgba(216,27,106,.7)" text-anchor="middle">INSIGHTLY</text>
+</g>
+<g class="pop-el before-el" style="transition-delay:.08s">
+<rect x="200" y="45" width="120" height="32" rx="6" fill="rgba(216,27,106,.1)" stroke="rgba(216,27,106,.2)" stroke-width="1"/>
+<text x="260" y="66" font-family="DM Mono,monospace" font-size="9" letter-spacing="1" fill="rgba(216,27,106,.6)" text-anchor="middle">WOOCOMMERCE</text>
+</g>
+<g class="pop-el before-el" style="transition-delay:.16s">
+<rect x="55" y="150" width="100" height="32" rx="6" fill="rgba(216,27,106,.12)" stroke="rgba(216,27,106,.25)" stroke-width="1"/>
+<text x="105" y="171" font-family="DM Mono,monospace" font-size="9" letter-spacing="1" fill="rgba(216,27,106,.6)" text-anchor="middle">LEARNDASH</text>
+</g>
+<g class="pop-el before-el" style="transition-delay:.24s">
+<rect x="220" y="160" width="110" height="32" rx="6" fill="rgba(216,27,106,.1)" stroke="rgba(216,27,106,.2)" stroke-width="1"/>
+<text x="275" y="181" font-family="DM Mono,monospace" font-size="9" letter-spacing="1" fill="rgba(216,27,106,.55)" text-anchor="middle">WORDPRESS</text>
+</g>
+<g class="pop-el before-el" style="transition-delay:.32s">
+<rect x="80" y="250" width="70" height="32" rx="6" fill="rgba(216,27,106,.1)" stroke="rgba(216,27,106,.2)" stroke-width="1"/>
+<text x="115" y="271" font-family="DM Mono,monospace" font-size="9" letter-spacing="1" fill="rgba(216,27,106,.55)" text-anchor="middle">ZOOM</text>
+</g>
+<g class="pop-el before-el" style="transition-delay:.40s">
+<rect x="210" y="265" width="80" height="32" rx="6" fill="rgba(216,27,106,.1)" stroke="rgba(216,27,106,.2)" stroke-width="1"/>
+<text x="250" y="286" font-family="DM Mono,monospace" font-size="9" letter-spacing="1" fill="rgba(216,27,106,.5)" text-anchor="middle">EXCEL</text>
+</g>
+<g class="pop-el before-el" style="transition-delay:.48s">
+<rect x="50" y="340" width="130" height="28" rx="6" fill="rgba(216,27,106,.08)" stroke="rgba(216,27,106,.15)" stroke-width="1"/>
+<text x="115" y="359" font-family="DM Mono,monospace" font-size="8" letter-spacing="1" fill="rgba(216,27,106,.45)" text-anchor="middle">SPREADSHEETS (?)</text>
+</g>
+<g class="pop-el before-el" style="transition-delay:.56s">
+<rect x="220" y="345" width="130" height="28" rx="6" fill="rgba(216,27,106,.08)" stroke="rgba(216,27,106,.15)" stroke-width="1"/>
+<text x="285" y="364" font-family="DM Mono,monospace" font-size="8" letter-spacing="1" fill="rgba(216,27,106,.4)" text-anchor="middle">RANDOM DOCS</text>
+</g>
+<!-- BEFORE chaos description -->
+<text x="170" y="390" font-family="DM Sans,monospace" font-size="10" fill="rgba(255,255,255,.2)" text-anchor="middle" font-style="italic">Duplicate data. Guarded information. No source of truth.</text>
+
+<!-- AFTER: three nodes connecting to center -->
+<!-- Lines first -->
+<line class="line-el" x1="610" y1="110" x2="750" y2="200" stroke="rgba(216,27,106,.5)" stroke-width="1.5" stroke-dasharray="4 3"/>
+<line class="line-el l2" x1="890" y1="110" x2="750" y2="200" stroke="rgba(244,143,177,.4)" stroke-width="1.5" stroke-dasharray="4 3"/>
+<line class="line-el l3" x1="750" y1="320" x2="750" y2="200" stroke="rgba(255,255,255,.2)" stroke-width="1.5" stroke-dasharray="4 3"/>
+<!-- Center hub -->
+<g class="pop-el after-el">
+<circle cx="750" cy="200" r="62" fill="rgba(45,27,105,.95)" stroke="#D81B6A" stroke-width="2"/>
+<circle cx="750" cy="200" r="54" fill="none" stroke="rgba(216,27,106,.25)" stroke-width="1"/>
+<text x="750" y="190" font-family="Playfair Display,serif" font-size="12" font-weight="700" fill="white" text-anchor="middle">Single Source</text>
+<text x="750" y="206" font-family="Playfair Display,serif" font-size="12" font-weight="700" fill="white" text-anchor="middle">of Truth</text>
+<text x="750" y="222" font-family="DM Mono,monospace" font-size="7" letter-spacing="1.5" fill="rgba(216,27,106,.9)" text-anchor="middle">BUILT FROM SCRATCH</text>
+</g>
+<!-- Node 1: Sales -->
+<g class="pop-el after-el" style="transition-delay:.2s">
+<circle cx="610" cy="110" r="46" fill="rgba(216,27,106,.15)" stroke="#D81B6A" stroke-width="1.5"/>
+<text x="610" y="100" font-family="DM Mono,monospace" font-size="8" letter-spacing="1" fill="#F48FB1" text-anchor="middle">SALES &amp;</text>
+<text x="610" y="113" font-family="DM Mono,monospace" font-size="8" letter-spacing="1" fill="#F48FB1" text-anchor="middle">OUTREACH</text>
+<text x="610" y="128" font-family="DM Sans,sans-serif" font-size="9" fill="rgba(255,255,255,.4)" text-anchor="middle" font-style="italic">pipeline visibility</text>
+</g>
+<!-- Node 2: Org Managers -->
+<g class="pop-el after-el" style="transition-delay:.4s">
+<circle cx="890" cy="110" r="46" fill="rgba(255,255,255,.06)" stroke="rgba(255,255,255,.3)" stroke-width="1.5"/>
+<text x="890" y="100" font-family="DM Mono,monospace" font-size="8" letter-spacing="1" fill="rgba(255,255,255,.8)" text-anchor="middle">ORG</text>
+<text x="890" y="113" font-family="DM Mono,monospace" font-size="8" letter-spacing="1" fill="rgba(255,255,255,.8)" text-anchor="middle">MANAGERS</text>
+<text x="890" y="128" font-family="DM Sans,sans-serif" font-size="9" fill="rgba(255,255,255,.4)" text-anchor="middle" font-style="italic">progress tracking</text>
+</g>
+<!-- Node 3: Learners -->
+<g class="pop-el after-el" style="transition-delay:.6s">
+<circle cx="750" cy="330" r="46" fill="rgba(255,255,255,.04)" stroke="rgba(255,255,255,.2)" stroke-width="1.5"/>
+<text x="750" y="320" font-family="DM Mono,monospace" font-size="8" letter-spacing="1" fill="rgba(255,255,255,.65)" text-anchor="middle">INDIVIDUAL</text>
+<text x="750" y="333" font-family="DM Mono,monospace" font-size="8" letter-spacing="1" fill="rgba(255,255,255,.65)" text-anchor="middle">LEARNERS</text>
+<text x="750" y="348" font-family="DM Sans,sans-serif" font-size="9" fill="rgba(255,255,255,.35)" text-anchor="middle" font-style="italic">content + schedule</text>
+</g>
+<!-- Result badge -->
+<g class="pop-el after-el" style="transition-delay:.8s">
+<rect x="640" y="248" width="220" height="36" rx="18" fill="rgba(216,27,106,.9)"/>
+<text x="750" y="262" font-family="DM Mono,monospace" font-size="8" letter-spacing="1.5" fill="white" text-anchor="middle">30 ORGS · 358 LEARNERS</text>
+<text x="750" y="276" font-family="DM Mono,monospace" font-size="8" letter-spacing="1" fill="rgba(255,255,255,.8)" text-anchor="middle">YEAR ONE · FROM SCRATCH</text>
+</g>
+<!-- AFTER description -->
+<text x="750" y="390" font-family="DM Sans,monospace" font-size="10" fill="rgba(255,255,255,.35)" text-anchor="middle" font-style="italic">One system. Three user types. Consistent delivery.</text>
+</svg>
+</div>
+</div>
+
+<div class="method-strip">
+<span>Investigate</span><i>→</i><span>Synthesize</span><i>→</i><span>Implement</span>
+</div>
+
+<div class="case-body">
+
+<!-- THE ORGANIZATION -->
+<div class="section">
+<div class="section-label">The Organization</div>
+<h2>A Founder's Methodology. A Team of Caregivers. Five Disconnected Systems.</h2>
+<p>Positive Approach to Care (PAC) is built around the dementia care methodology of founder Teepa Snow — one of the most recognized dementia care educators in the world. Her framework, grounded in the GEMS® states and the Six Pieces of the Puzzle, teaches care partners to meet people exactly where they are — honoring their real-time cognitive state, their perspective, and their capacity in any given moment.</p>
+<p>It is a profound methodology. And like many founder-led organizations built on a powerful personal philosophy, the operational infrastructure behind it had not kept pace with the vision.</p>
+<p>PAC hires care partners — people with deep human skill, empathy, and expertise in dementia care. They are not hired to run business systems. Nobody on the team was. And as the organization began scaling its private corporate certification program, the cracks were showing: a CRM being used for things it wasn't designed for, spreadsheets that some people used and others avoided entirely, and five platforms that didn't talk to each other.</p>
+</div>
+
+<!-- WHERE I CAME IN -->
+<div class="section">
+<div class="section-label">The Origin</div>
+<h2>I Didn't Arrive as a Consultant. I Came In to Help Someone with Excel.</h2>
+<p>That's important context. I arrived just before the pandemic, initially to help the e-commerce manager — because not many people on the team understood Excel. PAC tends to hire care partners, not technology people. So one of the dynamics that defined my entire time there was being a systems and technology person in a team of care partners who would take on the tasks they felt they had the ability to do.</p>
+<p>Business and technology skills varied widely across the team — as they do in most mission-driven organizations where the hiring priority is rightly the core work. Which meant every systems problem I encountered was also a human problem — and every solution had to account for both.</p>
+<p>My first job was to learn the system the way it actually worked — not the way anyone wished it worked. With no manual, no single person who had the full picture, and no clear answers, I documented what existed, asked questions, and built understanding from the ground up alongside the people living in it every day.</p>
+<p>Then the pandemic hit.</p>
+</div>
+
+<!-- THE CRUCIBLE -->
+<div class="section">
+<div class="section-label">The Crucible</div>
+<h2>Change Happens Most When an Organization Is in Turmoil.</h2>
+<p>When the entire world goes into turmoil, organizations change — fast, and not always cleanly. For PAC, a dementia care organization built on in-person human connection, the pandemic meant reinventing its entire delivery model overnight. Webinars replaced workshops. Virtual certification replaced in-person events. Every system that had been held together with institutional knowledge and personal relationships was suddenly under pressure.</p>
+<p>I operated in that environment for years. Building while the ground was shifting. Documenting processes that kept changing. Supporting a team that was simultaneously learning new tools, serving clients in crisis, and trying to keep a founder's methodology intact across a fully virtual world.</p>
+<blockquote>
+<p>"Turmoil is just change without a container. My job is to build the container."</p>
+</blockquote>
+<p>At the end of the pandemic, as the organization stabilized, I was let go. The acute crisis was over. The systems I'd built had done their job.</p>
+</div>
+
+<!-- THE RETURN -->
+<div class="section">
+<div class="section-label">The Return</div>
+<h2>They Brought Me Back. As a Consultant This Time.</h2>
+<p>It wasn't a long gap — only a few months between being let go as an employee and being brought back as a freelancer. And honestly, the groundwork for that return had been laid from the very beginning.</p>
+<p>My direct manager Keith had been absorbing the impact of massive, unplanned software changes driven by leadership decisions — often without operational input. My friend Shelly, a fellow systems thinker, had introduced me to Keith in the first place because she knew I had systems and Excel experience and she recognized what the team needed. Both Keith and Shelly stayed at PAC, kept advocating for better infrastructure, and were instrumental in bringing me back.</p>
+<p>Right as I returned, PAC hired Jami — someone who immediately saw the massive untapped potential in the private sales channel. The timing was significant. I focused on building the underlying structure and reporting first. Once that foundation existed and the data was visible, Jami had what she needed to make the case to leadership. She used that evidence to gain influence and push for staff role changes that formalized the private certification program as a real business function.</p>
+<p>That's how it actually works. The systems work didn't just organize operations — it created the conditions for someone else to lead organizational change. The container made the next move possible.</p>
+
+<div class="lesson">
+<div class="lesson-label">Key Principle</div>
+<p>Finding your allies inside an organization is not a soft skill. It is a core systems competency. No operational infrastructure survives without the people who believe in it, who protect it when leadership pivots, and who know where the bodies are buried when you're trying to understand why something works the way it does. In this case, those people were already there — I just had to recognize them and build alongside them.</p>
+</div>
+</div>
+
+<!-- THE APPROACH -->
+<div class="section">
+<div class="section-label">The Approach</div>
+<h2>Define the Problem Before You Build the Solution.</h2>
+<p>The first thing I do in any systems project is figure out how I can report on what's happening. Not because I love reports. Because if you can't see what's happening, you can't fix it — and you definitely can't scale it.</p>
+<p>There's a principle I return to constantly: stop tying yourself to what the solution looks like and start building the theoretical problem. Define the problem down to every last detail. The answer lives inside the definition.</p>
+<p>In this case, the problem had three completely distinct dimensions depending on who was looking at it:</p>
+
+<div class="nodes">
+<div class="node n1">
+<div class="node-title">Sales &amp; Outreach</div>
+<p>Needed pipeline visibility, client intake tracking, and project status at a glance. Currently guarding information in personal spreadsheets.</p>
+</div>
+<div class="node n2">
+<div class="node-title">Org Managers</div>
+<p>Needed to know which employees were registered, where they were in the certification pathway, and how to report completions to their leadership.</p>
+</div>
+<div class="node n3">
+<div class="node-title">Individual Learners</div>
+<p>Often had no idea the administrative structure existed. Needed the right content, the right Zoom link, the right schedule — at the right time.</p>
+</div>
+</div>
+
+<p>Three different user types. Three completely different definitions of success. One system that had to serve all of them simultaneously.</p>
+
+<blockquote>
+<p>"Stop tying yourself to what the solution is and start to build the theoretical problem. Define the problem down to every last detail. The answer is in the definition."</p>
+</blockquote>
+</div>
+
+<!-- WHERE TEEPA MEETS ADKAR -->
+<div class="section">
+<div class="section-label">Where Two Methodologies Meet</div>
+<h2>Teepa's Philosophy and Operational Systems Thinking Converge.</h2>
+<p>Here's where the work gets interesting. Teepa teaches care partners to meet people where they are — to honor their real-time cognitive state, their current capacity, their perspective in this moment. In dementia care, this is non-negotiable. A person cannot choose their GEMS® state. You adapt to them.</p>
+<p>In organizational development, the same instinct applies — but with an important distinction. People in organizations have the ability and responsibility to adapt as their environment improves for the good of others. Meeting people where they are doesn't mean leaving them there. It means designing the path forward so that moving is easier than staying stuck.</p>
+<p>That philosophy shaped every decision in the build — including the most pragmatic one of all.</p>
+
+<div class="lesson">
+<div class="lesson-label">The Excel Decision</div>
+<p>I chose Excel deliberately — and strategically. PAC already knew Insightly was being sunset as their CRM. What they didn't have yet was a committed replacement. I was pushing hard for HubSpot based on research: it was the most obvious choice with the greatest potential to solve a range of their issues simultaneously. But leadership was still evaluating options, and Shelly was doing extensive cleanup work on the existing Insightly data. The last thing any of us wanted was building a new workflow into a system we knew was going away.</p>
+<p>Excel solved the immediate problem — something that worked with every system on the market, locked down with heavy dropdown menus and protected fields so it felt like a form rather than a spreadsheet. For a team with varied technology comfort levels, that distinction was everything.</p>
+<p>But it served a second purpose too. The Excel template became a working prototype for how the workflows would eventually need to be built in HubSpot — letting Jami and Shelly see the logic before the platform decision was finalized. When PAC eventually did implement HubSpot, the underlying workflow thinking was already done.</p>
+<p>I recommended HubSpot before I'd ever used it. They implemented it after I left. I'm still a little jealous I didn't get to see that through — but that's how good systems work sometimes ends: someone else gets to run in the building you helped design.</p>
+</div>
+</div>
+
+<!-- WHAT I BUILT -->
+<div class="section">
+<div class="section-label">What Was Built</div>
+<h2>A Complete Operational System. Designed to Be Handed Off.</h2>
+
+<div class="phase-diagram">
+<div class="phase-label">Administrative Phase Framework — PAC Private Certification Program</div>
+<div class="phases">
+<div class="phase-row">
+<div class="phase-name">Build Phase</div>
+<div class="phase-items">
+<span class="phase-item highlight">Intake Template</span>
+<span class="phase-item">Client Dashboard</span>
+<span class="phase-item">Insightly Projects</span>
+<span class="phase-item">Event Calendar</span>
+</div>
+</div>
+<div class="phase-row">
+<div class="phase-name">Sales Phase</div>
+<div class="phase-items">
+<span class="phase-item highlight">Org Onboarding Email</span>
+<span class="phase-item">Champion Registration</span>
+<span class="phase-item">Materials Ordering</span>
+</div>
+</div>
+<div class="phase-row">
+<div class="phase-name">Edit Phase</div>
+<div class="phase-items">
+<span class="phase-item">Coupon Codes</span>
+<span class="phase-item highlight">Zoom URLs</span>
+<span class="phase-item">Learner Intake Verification</span>
+</div>
+</div>
+<div class="phase-row">
+<div class="phase-name">Registration</div>
+<div class="phase-items">
+<span class="phase-item highlight">Champion 1–4</span>
+<span class="phase-item">Completion Reporting</span>
+<span class="phase-item">Mentor Assignment</span>
+</div>
+</div>
+<div class="phase-row">
+<div class="phase-name">Certification</div>
+<div class="phase-items">
+<span class="phase-item highlight">Pre-Req Verification</span>
+<span class="phase-item">Credly Badges</span>
+<span class="phase-item">Org Designation Handoff</span>
+</div>
+</div>
+</div>
+</div>
+
+<div class="deliverables">
+<div class="deliverable">
+<div class="deliverable-icon">📋</div>
+<h4>Client Intake Framework</h4>
+<p>Protected data fields, dropdown menus, bundle specifications, and automatic deadline calculations — deployable to any new client organization in minutes.</p>
+</div>
+<div class="deliverable">
+<div class="deliverable-icon">📊</div>
+<h4>Cross-Organization Dashboard</h4>
+<p>A single source of truth providing real-time visibility across all active client organizations simultaneously. Learner status, completion tracking, and certification progress in one place.</p>
+</div>
+<div class="deliverable">
+<div class="deliverable-icon">✅</div>
+<h4>Role Accountability Matrix</h4>
+<p>16 numbered tasks, clearly assigned owners, and timing relative to certification dates — so the system ran consistently whether or not any single person was available.</p>
+</div>
+<div class="deliverable">
+<div class="deliverable-icon">📅</div>
+<h4>Gantt-Style Project Timeline</h4>
+<p>Calculated backwards from certification dates automatically — turning a complex scheduling puzzle into a simple reference document any team member could use.</p>
+</div>
+<div class="deliverable">
+<div class="deliverable-icon">📬</div>
+<h4>Parallel Communication Strategy</h4>
+<p>Simultaneous tracks to client organizations and individual learners, mapped to ADKAR change management principles. Nobody fell through the cracks regardless of their position in the user ecosystem.</p>
+</div>
+<div class="deliverable">
+<div class="deliverable-icon">👥</div>
+<h4>Stakeholder Visibility Design</h4>
+<p>Not everyone needed to understand the full system. Designed different visibility levels for different roles — big picture for leadership, day-to-day for coordinators. This made the system stick.</p>
+</div>
+</div>
+</div>
+
+<!-- THE RESULT -->
+<div class="result-banner">
+<h2>Year One Results</h2>
+<p>Not because the technology was sophisticated. Because the problem was defined clearly enough that the solution became obvious.</p>
+<div class="result-stats">
+<div class="result-stat">
+<div class="result-stat-num">30</div>
+<div class="result-stat-label">Client Organizations</div>
+</div>
+<div class="result-stat">
+<div class="result-stat-num">358</div>
+<div class="result-stat-label">Learners Supported</div>
+</div>
+<div class="result-stat">
+<div class="result-stat-num">1</div>
+<div class="result-stat-label">Source of Truth</div>
+</div>
+</div>
+</div>
+
+<!-- THE DEEPER LESSON -->
+<div class="section">
+<div class="section-label">The Deeper Lesson</div>
+<h2>The Most Important Systems Hold When Everything Is Falling Apart.</h2>
+<p>The most important systems are not the ones that work when everything is going well. They are the ones that hold when the organization is in turmoil — when people are scared, when tools are changing, when the founder's vision is outpacing the infrastructure behind it.</p>
+<p>That is where this work was done. And that is where the methodology was tested and proven.</p>
+<p>Investigate the real problem — not the presenting problem, but the operational and human dynamics underneath it. Synthesize what you find into a design that serves every user type simultaneously. Implement in a way that meets people where they are while moving the whole system forward.</p>
+<blockquote>
+<p>"If you cannot show me the data, how do we build the way to see it? That question is where every system I've ever built actually started."</p>
+</blockquote>
+</div>
+
+</div><!-- end case-body -->
+
+<div class="case-cta">
+<h2>Recognize your organization in this story?</h2>
+<p>Let's find out what the evidence is already telling you — and what to do about it.</p>
+<div class="cta-links">
+<a href="https://calendly.com/go2kerrisue/consult" class="btn-primary">Schedule a Discovery Call</a>
+<a href="index.html" class="btn-ghost">← View All Case Studies</a>
+</div>
+</div>
+
+<footer>
+<span>© 2026 Go2KerriSue Consulting</span>
+<a href="https://go2kerrisue.com">go2kerrisue.com</a>
+</footer>
+
+</body>
+<script>
+const heroViz = document.getElementById('hero-viz');
+if (heroViz) {
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        setTimeout(() => entry.target.classList.add('visible'), 200);
+        observer.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.2 });
+  observer.observe(heroViz);
+}
+</script>
+</body>
+</html>
